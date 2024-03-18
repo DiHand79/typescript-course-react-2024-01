@@ -1,4 +1,5 @@
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
 import App from "./App.tsx";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -6,6 +7,12 @@ import UsersPage from "./pages/UsersPage/UsersPage.tsx";
 import UserEditPage from "./pages/UserEditPage/UserEditPage.tsx";
 import UserCreatePage from "./pages/UserCreatePage/UserCreatePage.tsx";
 import UserDeletePage from "./pages/UserDeletePage/UserDeletePage.tsx";
+
+import store from "./store";
+
+store.subscribe(() => console.log("store state changed", store.getState()));
+
+console.log("initial state", store.getState());
 
 const router = createBrowserRouter([
   {
@@ -31,5 +38,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <RouterProvider router={router} />
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
 );

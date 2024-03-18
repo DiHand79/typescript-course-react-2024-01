@@ -1,22 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import UsersList from "../../components/UsersList/UsersList";
 import { IUser } from "../../types";
-import { getUsers } from "../../api";
 import { Link, useNavigate } from "react-router-dom";
+import { FetchUsersAction, UsersSelector } from "../../store/usersSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function UsersPage() {
-  const [users, setUsers] = useState<IUser[]>([]);
+  const users = useSelector(UsersSelector);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchUsers();
+    dispatch(FetchUsersAction() as any);
   }, []);
-
-  const fetchUsers = async () => {
-    const data: IUser[] = await getUsers();
-    setUsers(data);
-  };
 
   const handleDelete = async (id: number) => {
     navigate(`/users/delete/${id}`);
