@@ -1,18 +1,19 @@
 import { Link } from "react-router-dom";
 import "./App.css";
-import { useDispatch, useSelector } from "react-redux";
-import { CounterIncremenAction, CounterSelector } from "./store/counterSlice";
+import { useSelector } from "react-redux";
+import { incrementAction, CounterSelector } from "./store/counterSlice";
+import { useAppDispatch } from "./store";
 
 function App() {
   const counter = useSelector(CounterSelector);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <div>
       <Link to="/users">Users</Link>
       <button
         onClick={() => {
-          dispatch(CounterIncremenAction());
+          dispatch(incrementAction());
         }}
       >
         Increment {counter}

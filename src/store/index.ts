@@ -1,17 +1,15 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
-import { counterReducer } from "./counterSlice";
-import { IUser } from "../types";
+import { configureStore } from "@reduxjs/toolkit";
+import counterReducer from "./counterSlice";
 import { usersReducer } from "./usersSlice";
-import { thunk } from "redux-thunk";
+import { useDispatch } from "react-redux";
 
-export interface IState {
-  counter: { value: number };
-  users: IUser[];
-}
+const store = configureStore({
+  reducer: { counter: counterReducer, users: usersReducer },
+});
 
-const store = createStore(
-  combineReducers({ counter: counterReducer, users: usersReducer }),
-  applyMiddleware(thunk)
-);
+export type RootState = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch: () => AppDispatch = useDispatch; // Export a hook that can be reused to resolve types
 
 export default store;

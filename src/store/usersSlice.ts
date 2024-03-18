@@ -1,4 +1,4 @@
-import { IState } from ".";
+import { AppDispatch, RootState } from ".";
 import { getUsers } from "../api";
 import { IUser } from "../types";
 
@@ -7,7 +7,7 @@ interface IUsersAction {
   payload?: IUser[];
 }
 
-export function usersReducer(state = [], action: IUsersAction) {
+export function usersReducer(state: IUser[] = [], action: IUsersAction) {
   console.log("action", action);
 
   switch (action.type) {
@@ -20,7 +20,7 @@ export function usersReducer(state = [], action: IUsersAction) {
 }
 
 export function FetchUsersAction() {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     const data: IUser[] = await getUsers();
 
     dispatch(UsersSetAction(data));
@@ -31,6 +31,6 @@ export function UsersSetAction(users: IUser[]) {
   return { type: "users/set", payload: users };
 }
 
-export function UsersSelector(state: IState) {
+export function UsersSelector(state: RootState) {
   return state.users;
 }
